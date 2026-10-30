@@ -7,6 +7,16 @@
 **Source:** https://github.com/bearbaba/RELYNX-Console  
 **Network:** GenLayer Studionet, chain 61999 (testnet only)
 
+## Steward requested changes — resolved in submitted repository (30 Oct 2026)
+
+**All three requested concerns now have directly verifiable source and tests:**
+
+1. **Exact deployed contract source in this repo:** [RELYNX](contracts/relynx_deployed.py) and [Consumer Gate](contracts/consumer_gate_deployed.py), copied **byte-for-byte from Studionet** using \`getContractCode\`. On-chain and local SHA-256 match for both, including CRLF line endings. Run \`npm run verify:contracts\` to reproduce without a wallet.
+2. **Every Console call mapped to method/return shape:** [complete cross-contract source and method map](docs/CONTRACT_SOURCE_MAP.md). Includes method arguments, JSON return structures, code paths, source policy, AI-consensus evidence, wallet signing, and finality/readback handling.
+3. **Notice digest false-success fixed:** [readback validator](src/noticeVerification.js) now requires the precise submitted SHA-256 to match the finalized \`claim_status.last_notice_sha256\`, plus matching claim ID and consistent persisted \`REVOKE / KEEP / UNVERIFIABLE\` decision/state. \`SOURCE_MISMATCH\`, \`SOURCE_UNAVAILABLE\`, \`INVALID_SCOPE\` are nonpersistent diagnostics even when GenVM execution is SUCCESS: the Console now displays **FINALIZED · notice NOT verified**, not successful verification. [11 automated negative/positive tests](tests/noticeVerification.test.mjs), run \`npm test\`.
+
+**Proof:** \`npm test\` (11 PASS), \`npm run build\` (PASS), \`npm run verify:contracts\` (both exact deployed source bytes match live Studionet). No contract addresses or prior AI verdicts changed; no redeployment or extra historical score is claimed.
+
 ## What is new in this Project submission?
 
 **RELYNX's underlying Intelligent Contract was submitted separately as an IC contribution. This Project submission is not a resubmission or new claim of credit for that contract.** RELYNX Console is a subsequent user-facing web application integrating the previously deployed RELYNX primitive and its distinct deployed Consumer Gate:
