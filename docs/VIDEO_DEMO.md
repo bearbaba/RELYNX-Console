@@ -1,7 +1,7 @@
 # RELYNX Console — Published demo
 
 **Published demo:** https://youtu.be/TzSONW6uWb0  
-**Live app:** https://relynx-console.vercel.app/  
+**Live app:** https://relynx-console-project.vercel.app/  
 **Network:** GenLayer Studionet (61999)
 
 The project video shows a new wallet-signed Claim #4 registration, a live Consumer Gate check, and a separately signed action that created on-chain Receipt #2. This is not an independent new AI review for Claim #4.
