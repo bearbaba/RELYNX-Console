@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RELYNX — Trust Console</title><meta name="description" content="Explore on-chain claims, check trust and record GenLayer action receipts."/>
+</head><body>
+<div class="layout">
+ <main class="main" id="top">
+  <div class="masthead"><a class="brand" href="#top" aria-label="RELYNX home"><span class="brand-icon">R<span>·</span></span><span>RELYNX<small>TRUST CONSOLE</small></span></a><div class="mast-right"><span class="network">● &nbsp; Studionet · 61999</span><span id="walletState" class="wallet-info">Read-only mode</span><button class="btn outline" id="connectWallet" type="button">Connect wallet</button></div></div>
+  <header class="top">
+   <div><div class="eyebrow">GENLAYER / LIVE CONTRACTS</div><h1>Check what you can<br/><em>still trust.</em></h1>
+    <p>One claim can affect another. See what GenLayer allows and what it blocks.</p>
+   </div>
+
+  </header>
+  <div class="top-action"><a href="#claims" class="btn primary">View claims ↓</a><a href="#gate" class="btn outline">Check an action ↓</a></div>
+  <section class="overview" aria-label="Live counters">
+   <div class="metric"><span>ON-CHAIN CLAIMS</span><strong id="claimCount">Loading…</strong><small>RELYNX</small></div>
+   <div class="metric"><span>STORED RECEIPTS</span><strong id="receiptCount">Loading…</strong><small>Consumer Gate</small></div>
+   <div class="metric"><span>CONTRACT NETWORK</span><strong class="net-stat">Studionet <i class="dot"></i></strong><small>61999 · GEN testnet</small></div>
+  </section>
+  <div id="readNotice" class="notice" role="status"><span id="readStatus">Connecting to GenLayer…</span><button id="refresh" class="text-btn">Retry ↻</button></div>
+  <section id="claims" class="panel">
+   <div class="section-top"><div><span class="eyebrow">01 / CLAIM EXPLORER</span><h2>Explore a claim</h2><p>Pick a claim to check the latest finalized contract state.</p></div>
+   <button id="refreshClaims" class="btn tiny" type="button">Refresh</button></div>
+   <div class="claims-layout">
+    <div class="claim-sidebar"><div class="label">QUICK TEST CASES</div>
+      <div class="claim-shortcuts">
+       <button type="button" id="preset2" class="claim-shortcut"><b>Claim #2</b><small>Dependent claim · blocked if parent revoked</small><span id="state2">Check live status</span></button>
+       <button type="button" id="preset3" class="claim-shortcut"><b>Claim #3</b><small>Independent claim · expected eligible</small><span id="state3">Check live status</span></button>
+      </div>
+      <div class="claim-search"><label for="claimId">OTHER CLAIM ID</label><div class="input-row"><input type="number" id="claimId" value="2" min="1" aria-label="Claim ID"/><button type="button" id="loadClaim" class="btn small">Load</button></div></div>
+      <p class="tiny-copy">Demo labels describe past Studionet evidence. Live status comes from the contract.</p>
+    </div>
+    <div id="claimDetails" class="claim-details" aria-live="polite"><div class="empty"><div class="empty-icon">◇</div><b>Select a claim</b><p>We'll read its current status directly from GenLayer.</p></div></div>
+   </div>
+  </section>
+  <section id="claimJourney" class="journey-success" hidden aria-live="polite">
+   <div><strong id="claimJourneyTitle">Claim registered successfully</strong>
+    <p>Next, check this claim in the Consumer Gate before signing an action.</p></div>
+   <button id="continueGate" class="btn primary" type="button">Continue: Check &amp; Sign →</button>
+  </section>
+  <section id="gate" class="panel">
+   <div class="section-top"><div><span class="eyebrow">02 / CONSUMER GATE</span><h2>Check. Sign. Verify.</h2><p>A second contract checks current trust before recording an action.</p></div></div>
+   <div class="gate-grid">
+    <div class="gate-form">
+     <div class="step"><span>1</span><b>Select a claim</b></div>
+     <div class="choice-row"><button id="choose2" type="button" class="choice" aria-pressed="false">#2 <small>Test blocked</small></button><button id="choose3" type="button" class="choice" aria-pressed="true">#3 <small>Test allowed</small></button></div>
+     <div class="new-claim-picker"><label for="gateCustomId">OR USE A NEW CLAIM ID</label><div class="input-row"><input id="gateCustomId" type="number" min="1" step="1" inputmode="numeric" value="4" aria-label="New on-chain claim ID"/><button id="chooseCustom" type="button" class="btn outline small">Use claim</button></div></div>
+     <div class="step step-space"><span>2</span><b>Check eligibility</b></div>
+     <div class="eligibility" id="eligibility">Select a claim and check its live eligibility.</div>
+     <div class="gate-buttons"><button type="button" class="btn outline" id="checkAction">Check on-chain</button></div>
+     <div class="step step-space"><span>3</span><b>Sign a permitted action</b></div>
+     <form id="actionForm" class="gate-sign"><label for="actionKey">ACTION REFERENCE</label><input id="actionKey" type="text" value="reviewer-demo" pattern="[a-z0-9][a-z0-9_-]{2,39}" maxlength="40" required/><input id="actionClaim" type="hidden" value="3"/><button id="signAction" class="btn primary" type="submit" disabled>Connect wallet to sign</button><p>One wallet signature. A new receipt is recorded only if the contract approves.</p></form>
+    </div>
+    <div class="receipt-card"><div class="receipt-kicker"><span class="eyebrow">LATEST ON-CHAIN RECEIPT</span><span class="tag">GENLAYER</span></div><div id="receiptDetails"><div class="empty"><div class="empty-icon">▤</div><b>Waiting for contract data</b><p>Successful actions appear here after finalization.</p></div></div></div>
+   </div>
+  </section>
+  <section id="issuer" class="panel issuer-panel">
+   <details id="advanced"><summary><span><span class="eyebrow">03 / ISSUER TOOLS</span><strong>Register claims &amp; review notices</strong><small>Advanced on-chain actions · expand only when needed</small></span><span class="summary-arrow">⌄</span></summary>
+    <div class="forms">
+     <form class="compact-form" id="registerForm"><h3>Register claim</h3><p>Creates a new issuer assertion under your connected wallet.</p><label>GITHUB OWNER<input id="repoOwner" value="bearbaba" required/></label><label>REPOSITORY<input id="repoName" value="relynx" required/></label><label>CLAIM KEY<input id="claimKey" value="aurora-video-demo-01" placeholder="aurora-demo-name" required/><small class="form-hint">For the Consumer Gate demo, use an <strong>aurora-</strong> key.</small></label><label>STATEMENT<textarea id="claimStatement" minlength="32" rows="3" placeholder="Write the exact claim statement (32+ chars)" required>This test claim confirms that the Aurora demo integration is registered for the RELYNX Console workflow.</textarea></label><div class="field-row"><label>PARENT A<input type="number" id="parentA" min="0" value="0"/></label><label>PARENT B<input type="number" id="parentB" min="0" value="0"/></label></div><button class="btn outline" type="submit">Sign registration</button></form>
+     <form class="compact-form" id="noticeForm"><h3>Review a notice</h3><p>Submitting a valid withdrawal notice can permanently revoke a claim.</p><label>CLAIM ID<input type="number" id="noticeClaim" min="1" value="3" required/></label><label>GIT COMMIT · 40 HEX<input id="noticeCommit" pattern="[0-9a-f]{40}" minlength="40" maxlength="40" required placeholder="Exact pinned commit hash"/></label><label>NOTICE SHA-256 · 64 HEX<input id="noticeDigest" pattern="[0-9a-f]{64}" minlength="64" maxlength="64" required placeholder="Exact source file digest"/></label><div class="notice-warning">Irreversible if the contract confirms a revocation. Use only your intended notice.</div><button class="btn outline" type="submit">Sign notice review</button></form>
+    </div>
+   </details>
+  </section>
+  <section class="panel evidence" id="evidence"><div class="section-top"><div><span class="eyebrow">04 / EVIDENCE</span><h2>Verify every result</h2><p>Read the source and confirmed transaction evidence.</p></div></div>
+   <div class="links"><a href="https://explorer-studio.genlayer.com/address/0x69c3468823F60Fc6a37b3c141EEc1Bd2fD8176Fa" target="_blank" rel="noopener">RELYNX contract <b>↗</b></a><a href="https://explorer-studio.genlayer.com/address/0xe3421601C4F2Fc5cb5b7922cbA98fA0A6B701B0b" target="_blank" rel="noopener">Consumer Gate <b>↗</b></a><a href="https://github.com/bearbaba/RELYNX-Console/blob/main/docs/CONSUMER_LIVE_EVIDENCE.md" target="_blank" rel="noopener">Live test evidence <b>↗</b></a><a href="https://github.com/bearbaba/RELYNX" target="_blank" rel="noopener">GitHub source <b>↗</b></a></div>
+  </section>
+  <footer>Built on GenLayer Studionet · Demo claims are not proof of issuer identity, product safety or real-world authorization.</footer>
+ </main>
+</div>
+<div id="txPanel" class="tx-panel" role="status" aria-live="polite" data-state="working" hidden>
+  <button id="dismissTx" class="tx-close" aria-label="Close transaction notification" type="button" hidden>×</button>
+  <div class="tx-layout">
+   <span id="txSpinner" class="tx-spinner" aria-hidden="true"></span>
+   <span id="txMark" class="tx-mark" aria-hidden="true" hidden>✓</span>
+   <div class="tx-copy"><div id="txStage" class="eyebrow">STEP 1 / WALLET</div><h3 id="txTitle">Confirm in wallet</h3><p id="txStatus">Waiting for your signature…</p></div>
+  </div>
+  <div class="tx-foot"><a id="txLink" target="_blank" rel="noopener" hidden>View transaction in Explorer ↗</a>
+  <button id="checkTx" class="btn tiny" type="button" hidden>Check transaction again</button>
+  <button id="nextSign" class="btn primary tiny" type="button" hidden>Next: Check &amp; Sign →</button></div>
+ </div>
+<script type="module" src="/src/main.js"></script>
+</body></html>
