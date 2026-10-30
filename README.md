@@ -2,7 +2,7 @@
 
 **A GenLayer-powered trust and claim verification application.** When verified evidence revokes an upstream claim, downstream trust and consumer permissions must change accordingly.
 
-**Live App:** https://relynx-console.vercel.app/ · **Signed Demo Video:** https://youtu.be/TzSONW6uWb0 · **Reviewer Guide:** [PROJECT_REVIEWER.md](PROJECT_REVIEWER.md)
+**Live App (new standalone deployment):** https://relynx-console-project.vercel.app/ · **Signed Demo Video:** https://youtu.be/TzSONW6uWb0 · **Reviewer Guide:** [PROJECT_REVIEWER.md](PROJECT_REVIEWER.md)
 
 ## What this project adds
 
