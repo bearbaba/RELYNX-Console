@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test tests/*.test.mjs",
+    "verify:contracts": "node scripts/verify-onchain-sources.mjs"
   },
   "dependencies": {
     "genlayer-stable": "npm:genlayer-js@1.1.8"
