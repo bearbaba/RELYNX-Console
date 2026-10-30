@@ -1,0 +1,25 @@
+name: RELYNX Console verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Regress notice digests and final outcomes
+        run: npm test
+      - name: Build Vite Console
+        run: npm run build
+      - name: Verify exact on-chain source bytes (manual workflow only)
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run verify:contracts
