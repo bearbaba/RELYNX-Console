@@ -1,4 +1,5 @@
 import "./style.css";
+import { verifyNoticeReadback } from "./noticeVerification.js";
 import { createClient } from "genlayer-stable";
 import { studionet } from "genlayer-stable/chains";
 
@@ -211,11 +212,8 @@ async function checkStored(record){
   return {ok:false,message:"Registered claim not visible yet. Recheck the existing transaction hash."};
  }
  if(record.functionName==="review_notice"){
-  const c=toObject(await read(RELYNX,"claim_status",[id]));
-  if(String(c.last_notice_sha256||"").toLowerCase()===String(record.args[2]).toLowerCase()){
-   return {ok:true,message:"Notice review recorded · "+String(c.last_decision||c.state)+"."};
-  }
-  return {ok:true,message:"Review transaction executed. Notice may have returned a source diagnostic without changing state."};
+  const raw=await read(RELYNX,"claim_status",[id]);
+  return verifyNoticeReadback(raw,{claimId:id,digest:record.args[2]});
  }
  return {ok:false,message:"Unknown write method."};
 }
@@ -269,6 +267,8 @@ async function watchPending(record){
           document.querySelector("#gate")?.scrollIntoView({behavior:"smooth",block:"start"});
          }
         }catch{}
+       }else if(record.functionName==="review_notice"){
+        tx("FINALIZED · notice NOT verified",recordCheck.message,hash,"unknown","FINALIZED / NOTICE UNVERIFIED");
        }else{
         tx("Finalized · verifying record",recordCheck.message,hash,"unknown","FINALIZED / READBACK PENDING");
        }
