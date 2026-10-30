@@ -4,6 +4,24 @@
 
 **Live App (new standalone deployment):** https://relynx-console-project.vercel.app/ · **Signed Demo Video:** https://youtu.be/TzSONW6uWb0 · **Reviewer Guide:** [PROJECT_REVIEWER.md](PROJECT_REVIEWER.md)
 
+## Steward review update — exact deployed sources and notice verification (30 Oct 2026)
+
+The submitted repository now includes the **exact deployed Python source bytes** for [RELYNX](contracts/relynx_deployed.py) (`0x69c346…8176Fa`) and [Consumer Gate](contracts/consumer_gate_deployed.py) (`0xe34216…01B0b`). Both were retrieved from Studionet with `getContractCode` and verified **byte-for-byte** with matching SHA-256 hashes. No contract has been redeployed or modified on-chain.
+
+- [Exact source provenance, every UI/API method and return shape, and cross-contract authorization](docs/CONTRACT_SOURCE_MAP.md)
+- [Revised reviewer guide and signed evidence](PROJECT_REVIEWER.md)
+- [Fail-closed notice result verifier](src/noticeVerification.js): a finalized GenVM SUCCESS no longer means verified source admission when the submitted SHA-256 differs from `claim_status.last_notice_sha256`.
+- [Automated adversarial and positive tests](tests/noticeVerification.test.mjs): 11 cases, including mismatched/absent digest, wrong claim ID, missing verdict and inconsistent revocation state.
+
+```bash
+npm install
+npm test
+npm run build
+npm run verify:contracts  # live read-only comparison against both Studionet deployments
+```
+
+**Scope:** this fixes the **Console verification and reviewer traceability**, not the already accepted RELYNX IC's consensus logic. The Gate V1 policy is a fixed single-issuer demo and does not prevent duplicate action references.
+
 ## What this project adds
 
 RELYNX Console is a user-facing web application integrated with two already deployed GenLayer Intelligent Contracts. It is distinct from the standalone [RELYNX Intelligent Contract](https://github.com/bearbaba/RELYNX), which was previously submitted and reviewed separately. **This project does not claim the original consensus contract as a newly created primitive.**
