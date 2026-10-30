@@ -2,7 +2,7 @@
 
 **Project:** RELYNX Console  
 **Date:** October 30, 2026  
-**Demo:** https://relynx-console.vercel.app/  
+**Demo:** https://relynx-console-project.vercel.app/  
 **New narrated/subtitled demo video:** https://youtu.be/TzSONW6uWb0  
 **Source:** https://github.com/bearbaba/RELYNX-Console  
 **Network:** GenLayer Studionet, chain 61999 (testnet only)
@@ -47,7 +47,7 @@ Follow-up live API verification (Oct 30):
 
 ## How to reproduce (read-only / wallet)
 
-1. Open https://relynx-console.vercel.app/.
+1. Open https://relynx-console-project.vercel.app/.
 2. Inspect Claims #2 and #3: the Consumer Gate denies #2 and allows #3. On-chain read-only browsing requires no wallet.
 3. Connect a compatible wallet to **Studionet chain 61999**. The current Consumer Gate trusts only issuer `0x4C7cb73aC8F8999af21cfc9fF4cF2333a9508Dcb`, repo `bearbaba/relynx`, and `aurora-`-prefixed keys; arbitrary community wallets cannot use this specific gate.
 4. To reproduce the write path on the trusted test account: register an independent test claim using a **new unique** `aurora-` key, inspect the new ID, continue to Consumer Gate, confirm `ALLOWED`, sign an action reference and inspect the new on-chain receipt. The frontend never auto-signs transactions.
